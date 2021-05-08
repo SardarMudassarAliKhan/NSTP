@@ -65,6 +65,14 @@ namespace NSTP.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -92,6 +100,11 @@ namespace NSTP.Models
         [Required]
         [Display(Name = "Address")]
         public string Address { get; set; }
+
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; } = "Admin";
+
     }
 
     public class ResetPasswordViewModel
