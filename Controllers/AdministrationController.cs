@@ -13,5 +13,9 @@ namespace NSTP.Controllers
         {
             return View();
         }
+        public ActionResult NSTPSlider()
+        {
+            return View();
+        }
     }
 }
