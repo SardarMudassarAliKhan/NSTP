@@ -289,6 +289,16 @@
       <DependentUpon>202105081824171_AddationOfRoles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NSTPakistan\NSTP-BAL\NSTP-BAL.csproj">
+      <Project>{84404db1-49f7-4941-a2bc-f177c61e4e6d}</Project>
+      <Name>NSTP-BAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NSTPakistan\NSTP-DAL\NSTP-DAL.csproj">
+      <Project>{c5a2251c-7da7-4025-b8b8-007278f28e37}</Project>
+      <Name>NSTP-DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
