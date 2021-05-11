@@ -6,7 +6,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using NSTP.Models;
+using NSTP_DAL.Data;
+using NSTP_DAL.Models;
 
 namespace NSTP.Controllers
 {

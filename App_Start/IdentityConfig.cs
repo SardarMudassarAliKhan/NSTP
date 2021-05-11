@@ -10,7 +10,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using NSTP.Models;
+using NSTP_DAL.Data;
+using NSTP_DAL.Models;
 
 namespace NSTP
 {
@@ -86,6 +87,8 @@ namespace NSTP
             }
             return manager;
         }
+
+        
     }
 
     // Configure the application sign-in manager which is used in this application.

@@ -9,7 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using NSTP.Models;
+using NSTP_DAL.Data;
+using NSTP_DAL.Models;
 
 namespace NSTP.Controllers
 {
@@ -19,16 +20,19 @@ namespace NSTP.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext _applicationDb;
-        //private ApplicationRoleManager _roleManager;
+        private RoleManager<IdentityRole> _roleManager;
+        //private ApplicationUser user;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, RoleManager<IdentityRole> roleManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _roleManager = roleManager;
+           
         }
 
         public ApplicationSignInManager SignInManager
@@ -153,18 +157,30 @@ namespace NSTP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
             if (ModelState.IsValid)
             {
                 ApplicationDbContext context = new ApplicationDbContext();
-                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName=model.Email,
-                    Email = model.Email, CNIC=model.CNIC, Phone = model.Phone, Address = model.Address};
+                var user = new ApplicationUser {FirstName = model.FirstName, LastName = model.LastName, UserName=model.Email,
+                    Email = model.Email, CNIC=model.CNIC, Phone = model.Phone, Address = model.Address,Role = model.Role};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
-                {                    
-                    /*await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    _userManager.AddToRole(user.Id, "Admin");*/
+                {
+                    /*bool roleExists = await _roleManager.RoleExistsAsync(model.Role);
+                    if (!roleExists)
+                    {
+                        // first we create Admin rool    
+                        var role = new IdentityRole();
+                        role.Name = "Admin";
+                        await _roleManager.CreateAsync(role);
+                        //await _roleManager.CreateAsync(new IdentityRole(model.Role));
+                    }
+
+                    if (!await _userManager.IsInRoleAsync(user.Id, model.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user.Id, model.Role);
+                    }*/
+               
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");

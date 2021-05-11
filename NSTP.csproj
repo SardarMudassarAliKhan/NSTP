@@ -54,8 +54,8 @@
       <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.4.2.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Owin.Host.SystemWeb.4.1.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
@@ -173,7 +173,6 @@
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\NSTPSlidersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -245,11 +244,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_LayoutAdministration.cshtml" />
     <Content Include="Views\Administration\DashBoard.cshtml" />
-    <Content Include="Views\NSTPSliders\Create.cshtml" />
-    <Content Include="Views\NSTPSliders\Delete.cshtml" />
-    <Content Include="Views\NSTPSliders\Details.cshtml" />
-    <Content Include="Views\NSTPSliders\Edit.cshtml" />
-    <Content Include="Views\NSTPSliders\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -268,12 +262,12 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NSTPakistan\NSTP-BAL\NSTP-BAL.csproj">
-      <Project>{84404db1-49f7-4941-a2bc-f177c61e4e6d}</Project>
+    <ProjectReference Include="..\NSTP-BAL\NSTP-BAL.csproj">
+      <Project>{955f16d5-3b52-4c8d-9c2c-afc26cbfbdfc}</Project>
       <Name>NSTP-BAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NSTPakistan\NSTP-DAL\NSTP-DAL.csproj">
-      <Project>{c5a2251c-7da7-4025-b8b8-007278f28e37}</Project>
+    <ProjectReference Include="..\NSTP-DAL\NSTP-DAL.csproj">
+      <Project>{1307b4b4-9901-4945-a876-764d1c282139}</Project>
       <Name>NSTP-DAL</Name>
     </ProjectReference>
   </ItemGroup>

@@ -4,8 +4,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using NSTP_DAL.Data;
+using NSTP_DAL.Models;
 using Owin;
-using NSTP.Models;
 
 namespace NSTP
 {
