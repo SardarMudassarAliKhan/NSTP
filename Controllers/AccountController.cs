@@ -20,19 +20,32 @@ namespace NSTP.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext _applicationDb;
-        private RoleManager<IdentityRole> _roleManager;
+        private ApplicationRoleManager _applicationRoleManager;
         //private ApplicationUser user;
 
         public AccountController()
         {
+
         }
 
-        public AccountController(ApplicationUserManager userManager, RoleManager<IdentityRole> roleManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationDbContext applicationDbContext, ApplicationSignInManager signInManager, ApplicationRoleManager   applicationRoleManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            _roleManager = roleManager;
-           
+            _applicationDb = applicationDbContext;
+           _applicationRoleManager = applicationRoleManager;
+        }
+
+        public ApplicationRoleManager ApplicationRoleManager
+        {
+            get
+            {
+                return _applicationRoleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _applicationRoleManager = value;
+            }
         }
 
         public ApplicationSignInManager SignInManager
@@ -76,7 +89,7 @@ namespace NSTP.Controllers
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
-            {
+            {  
                 return View(model);
             }
 
@@ -86,8 +99,18 @@ namespace NSTP.Controllers
             switch (result)
             {
                 
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    case SignInStatus.Success:
+                    var User = await UserManager.FindByEmailAsync(model.Email);
+                    var IsAdmin = await UserManager.IsInRoleAsync(User.Id, "Admin");
+                    if (IsAdmin)
+                    {
+                        return RedirectToAction("DashBoard", "Administration");
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -166,21 +189,25 @@ namespace NSTP.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    /*bool roleExists = await _roleManager.RoleExistsAsync(model.Role);
-                    if (!roleExists)
+                    try
                     {
-                        // first we create Admin rool    
-                        var role = new IdentityRole();
-                        role.Name = "Admin";
-                        await _roleManager.CreateAsync(role);
-                        //await _roleManager.CreateAsync(new IdentityRole(model.Role));
+                        bool roleExists = await ApplicationRoleManager.RoleExistsAsync(model.Role);
+                        if (!roleExists)
+                        {
+                            await ApplicationRoleManager.CreateAsync(new IdentityRole(model.Role));
+                        }
+
+                        if (!await UserManager.IsInRoleAsync(user.Id, model.Role))
+                        {
+                            await UserManager.AddToRoleAsync(user.Id, model.Role);
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        throw;
                     }
 
-                    if (!await _userManager.IsInRoleAsync(user.Id, model.Role))
-                    {
-                        await _userManager.AddToRoleAsync(user.Id, model.Role);
-                    }*/
-               
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");

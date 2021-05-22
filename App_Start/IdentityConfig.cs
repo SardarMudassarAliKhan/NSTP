@@ -108,5 +108,6 @@ namespace NSTP
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+        
     }
 }
