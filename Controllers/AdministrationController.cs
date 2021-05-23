@@ -17,5 +17,9 @@ namespace NSTP.Controllers
         {
             return View();
         }
+        public ActionResult NSTPNews()
+        {
+            return View();
+        }
     }
 }

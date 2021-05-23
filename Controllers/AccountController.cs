@@ -102,13 +102,18 @@ namespace NSTP.Controllers
                     case SignInStatus.Success:
                     var User = await UserManager.FindByEmailAsync(model.Email);
                     var IsAdmin = await UserManager.IsInRoleAsync(User.Id, "Admin");
+                    var IsUser = await UserManager.IsInRoleAsync(User.Id, "User");
                     if (IsAdmin)
                     {
                         return RedirectToAction("DashBoard", "Administration");
                     }
-                    else
+                    else if(IsUser)
                     {
                         return RedirectToLocal(returnUrl);
+                    }
+                    else
+                    {
+                        return null;
                     }
 
                 case SignInStatus.LockedOut:
